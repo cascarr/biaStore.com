@@ -1,0 +1,64 @@
+use storedb
+
+show collections
+
+db.products.find()
+
+db.products.find({
+  "cat_id"	: "2"
+}).pretty()
+
+db.categories.find()
+
+
+db.products.insert({
+  "product_id" : "1",
+  "product_title" : "Crazy Jean",
+  "cat_id"	: "1",
+  "product_price"	:	"24.99",
+  "product_image"	:	"https://placehold.it/320x150?text=IMAGE",
+  "short_desc"	:	"Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+  "product_description"	:	"Vestibulum ullamcorper purus nec elementum sodales. Maecenas at sapien sapien. Suspendisse rutrum velit sed mollis condimentum. Pellentesque sodales purus ut lectus dapibus vehicula."
+})
+
+
+db.products.insert({
+  "product_id" : "2",
+  "product_title" : "Lace shoe",
+  "cat_id"	: "2",
+  "product_price"	:	"299.99",
+  "product_image"	:	"https://placehold.it/320x150?text=IMAGE",
+  "short_desc"	:	"Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+  "product_description"	:	"Vestibulum ullamcorper purus nec elementum sodales. Maecenas at sapien sapien. Suspendisse rutrum velit sed mollis condimentum. Pellentesque sodales purus ut lectus dapibus vehicula."
+})
+
+
+db.products.insert({
+  "product_id" : "3",
+  "product_title" : "Ankle shoe",
+  "cat_id"	: "2",
+  "product_price"	:	"220.99",
+  "product_image"	:	"https://placehold.it/320x150?text=IMAGE",
+  "short_desc"	:	"Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+  "product_description"	:	"Vestibulum ullamcorper purus nec elementum sodales. Maecenas at sapien sapien. Suspendisse rutrum velit sed mollis condimentum. Pellentesque sodales purus ut lectus dapibus vehicula."
+})
+
+db.products.drop()
+
+db.products.find()
+
+db.users.find()
+
+db.products.update(
+{
+  "cat_id"	:	"1"
+},
+{
+  $set	:	{
+    "product_quantity"	:	"3"
+  }
+},
+{
+  multi	:	true
+}
+)
