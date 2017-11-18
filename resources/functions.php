@@ -100,7 +100,7 @@ DELIMETER;
 
 // creating the latest products
 function get_products_in_cat_page(){
-    
+
     $id = $_GET['id'];
     $connection = new MongoClient();
     
@@ -200,18 +200,17 @@ $connection = new MongoClient();
         
         if($username == $storedUsername && $password == $storedPassword){
            set_message("Welcome to biaStore.com {$username}");
-            redirect("admin");
-        } else {
-            set_message("Your password or username is wrong"); 
+            return redirect("admin");
+        } 
+        set_message("Your password or username is wrong"); 
             
-            redirect("login.php");
-        }
+        redirect("login.php");
+    
     
  }
  
     
 }
-
 
 
 // this function to post a message to admin.
@@ -246,41 +245,31 @@ function send_message(){
 
 // this function displays the product in the checkout.
 function cart() {
-    
-    $total = 0;
-    
-    $item_quantity = 0;
-    
-    foreach ($_SESSION as $name => $value) {
-        
-        if($value > 0) {
-            
-            if(substr($name, 0, 8) == "product_") { // this hw the substr works.. it starts from 0
-                
-                $length = strlen($name - 8);
-                
-                $id = substr($name, 8, $length);
-                
-                $id = $_GET['id'];
-                
-                // connection to the database
-                $connection = new MongoClient();
-    
-                // use database
-                $db = $connection->storedb;
-    
-                // we send the query in, right here..
-                $mObj = $db->products->find(array('product_id' => $id));
-    
-    
-                foreach ($mObj as $row) {
-                    
-                }
+    $products = $_SESSION['cart_product_id'];
 
-                
-            }
-            
-        }
-        
+    $results = [
+        'total_cost' => 0,
+        'number_product' => 0,
+        'products' => []
+    ];
+
+    if(!empty($products)){
+        $results['number_product'] = count($products);
     }
+
+    $connection = new MongoClient();
+                
+    $db = $connection->storedb;
+
+    foreach($products as $product_id){
+        $pr = $db->products->find(['product_id' => $product_id]);
+        foreach($pr as $p){
+            if($p) {
+                $results['products'][] = $p;
+                $results['total_cost'] += $p['product_price'];
+            }
+        }
+    }
+    return $results;
+
 }

@@ -13,25 +13,15 @@ if(isset($_GET['add'])){
     
     //$query = query("SELECT * FROM products WHERE product_id=" . escape_string($_GET['add']). " ");
    // confirm($query); // we use this function to make sure that the query goes through.
+    $product_id = intval($_GET['add']);
 
-    $db =
-    
-    while($row = fetch_array($query)) {
-        
-        
-        if($row['product_quantity'] != $_SESSION['product_' . $_GET['add']]) {
-            
-            $_SESSION['product_' . $_GET['add']]+=1;
-            
-        } else {
-            
-            //set_message("We only have" . );
-        }
+    if(!isset($_SESSION['cart_product_id'])){
+        $_SESSION['cart_product_id'] = [];
     }
-    
-//    $_SESSION['product_' . $_GET['add']] +=1;
-//    redirect("index.php");
-    
+
+    if(!in_array($product_id, $_SESSION['cart_product_id'])) 
+        $_SESSION['cart_product_id'][] = $product_id;
+    redirect('/');
 }
 
 ?>
